@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: collector
+  labels:
+    app: collector
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: collector
+  template:
+    metadata:
+      labels:
+        app: collector
+    spec:
+      containers:
+      - name: collector
+        image: europe-central2-docker.pkg.dev/cc-assignment1-366812/cc-a1-repo/collector-app@sha256:2a03c2c6c120240cd4c9cce47910c54f2a0bdc485704795bf546c37405245075
+        ports:
+        - containerPort: 31700

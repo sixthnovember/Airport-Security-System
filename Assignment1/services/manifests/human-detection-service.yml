@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: human-detection
+  labels:
+    app: human-detection
+spec:
+  type: LoadBalancer
+  selector:
+    app: human-detection
+  ports:
+  - port: 8080
+    targetPort: 8080

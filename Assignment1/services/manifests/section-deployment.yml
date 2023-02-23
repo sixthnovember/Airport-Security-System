@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: section
+  labels:
+    app: section
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: section
+  template:
+    metadata:
+      labels:
+        app: section
+    spec:
+      containers:
+      - name: section
+        image: ccuni/section-service-2022w
+        ports:
+        - containerPort: 31400

@@ -1,0 +1,88 @@
+version: '3.9'
+services:
+  camera1:
+    image: ccuni/camera-service-2022w
+    # insert resrouce constraints and network for each service
+    deploy:
+      resources:
+        limits:
+          cpus: "1"
+      mode: replicated
+      replicas: 1
+    networks:
+      - camera-network
+  image-analysis:
+    image: ccuni/image-analysis-service-2022w
+    ports: 
+      - "31200:80"
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5" 
+    networks:
+      - backend-network
+    depends_on:
+      - human-detection
+  face-recognition:
+    image: ccuni/face-recognition-service-2022w
+    ports:
+      - "31300:80"   
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+    networks:
+      - backend-network
+    depends_on:
+      - human-detection
+  section: # or sections + mongodb
+    image: ccuni/section-service-2022w
+    ports:
+      - "31400:80"    
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+    networks:
+      - backend-network
+    depends_on:
+      - image-analysis
+  alert:
+    image: ccuni/alert-service-2022w
+    ports: 
+      - "31500:80" # remove if you want to use --scale switch
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+    networks:
+      - backend-network
+    depends_on:
+      - human-detection
+      - face-recognition
+  human-detection:
+    build: ./human-detection
+    deploy:
+      resources:
+        limits:
+          cpus: "1"
+      mode: replicated
+      replicas: 1
+    networks:
+      - backend-network
+  collector:
+    build: ./collector
+    deploy:
+      resources:
+        limits:
+          cpus: "1"
+      mode: replicated
+      replicas: 1
+    networks:
+      - backend-network
+      - camera-network
+networks:
+  backend-network:
+    name: backend-network
+  camera-network:
+    name: camera-network

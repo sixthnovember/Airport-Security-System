@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: image-analysis
+  labels:
+    app: image-analysis
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: image-analysis
+  template:
+    metadata:
+      labels:
+        app: image-analysis
+    spec:
+      containers:
+      - name: image-analysis
+        image: ccuni/image-analysis-service-2022w
+        ports:
+        - containerPort: 31200

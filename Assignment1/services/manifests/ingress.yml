@@ -1,0 +1,61 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: $2
+  name: my-ingress
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: "34.118.82.198.np.io"
+    http:
+      paths:
+      - path: /alert(/|$)(.*)
+        pathType: Prefix
+        backend:
+          service:
+            name: alert
+            port:
+              number: 80
+      - path: /camera(/|$)(.*)
+        pathType: Prefix
+        backend:
+          service:
+            name: camera
+            port:
+              number: 80
+      - path: /collector(/|$)(.*)
+        pathType: Prefix
+        backend:
+          service:
+            name: collector
+            port:
+              number: 31700
+      - path: /face-recognition(/|$)(.*)
+        pathType: Prefix
+        backend:
+          service:
+            name: face-recognition
+            port:
+              number: 80
+      - path: /human-detection(/|$)(.*)
+        pathType: Prefix
+        backend:
+          service:
+            name: human-detection
+            port:
+              number: 31600
+      - path: /image-analysis(/|$)(.*)
+        pathType: Prefix
+        backend:
+          service:
+            name: image-analysis
+            port:
+              number: 80
+      - path: /section(/|$)(.*)
+        pathType: Prefix
+        backend:
+          service:
+            name: section
+            port:
+              number: 80

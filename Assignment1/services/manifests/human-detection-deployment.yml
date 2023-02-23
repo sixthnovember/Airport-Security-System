@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: human-detection
+  labels:
+    app: human-detection
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: human-detection
+  template:
+    metadata:
+      labels:
+        app: human-detection
+    spec:
+      containers:
+      - name: human-detection
+        image: europe-central2-docker.pkg.dev/cc-assignment1-366812/cc-a1-repo/human-detection-app@sha256:ff1c2aaf1d6877a5a91c214fb9820e4afcf096261198633a29c82969f8e28971
+        ports:
+        - containerPort: 31600
